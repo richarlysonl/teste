@@ -1,11 +1,10 @@
-FROM php:8.1-apache
+FROM php:8.2-apache
 
-RUN docker-php-ext-install mysqli pdo pdo_mysql
+# Habilita o módulo pgsql e pdo_pgsql
+RUN docker-php-ext-install pgsql pdo_pgsql
 
-COPY . /var/www/html/
+# Copia os arquivos do projeto para o Apache
+COPY public/ /var/www/html/
 
-RUN chown -R www-data:www-data /var/www/html/
-
-RUN a2enmod rewrite
-
-COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
+# Define a porta (padrão HTTP)
+EXPOSE 80
